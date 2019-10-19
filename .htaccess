@@ -1,0 +1,23 @@
+
+# HTID:11214010: DO NOT REMOVE OR MODIFY THIS LINE AND THE LINES BELOW
+php_value display_errors 1
+# DO NOT REMOVE OR MODIFY THIS LINE AND THE LINES ABOVE HTID:11214010:
+
+
+RewriteEngine on
+#RewriteCond %{SCRIPT_FILENAME} !-d
+#RewriteCond %{SCRIPT_FILENAME} !-l
+
+#below line for excludes admin/ directory
+RewriteCond %{REQUEST_URI} !^/admin/
+
+RewriteCond %{SCRIPT_FILENAME} !-f
+RewriteRule ^(.*)$ index.php/$1
+
+
+
+ErrorDocument 401 /errorpages/error.php
+ErrorDocument 402 /errorpages/error.php
+ErrorDocument 403 /errorpages/error.php
+ErrorDocument 404 /errorpages/error.php
+ErrorDocument 500 /errorpages/error.php
