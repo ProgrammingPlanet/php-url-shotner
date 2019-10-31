@@ -1,98 +1,139 @@
+<?php
+
+  include('dbcon.php');
+
+?>
+
+
+
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-	<meta charset="UTF-8">
-	<title>Create New link - Zlink</title>
-	<link rel="icon" href="../favicon.ico" type="image/ico" sizes="30x30">
-	
-	<style>
-		body{
-			margin: 0;
-			padding: 0;
-			width: 100vw;
-			height: 100vh;
-			
-		}
-		input.form-control:focus, button.btn:focus{
-		    border-color: none;
-            box-shadow: 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 4px rgba(126, 239, 104, 0.6);
-            outline: 0 none;
-		}
-		#shrtdiv{
-		    
-		}
-	</style>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-	<script src="../removebanner.js"></script>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Admin - Zlink</title>
+  <link rel="icon" href="../favicon.ico" type="image/ico" sizes="30x30">
+
+  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="css/sidebar.css" rel="stylesheet">
+  <link href="css/admin.css" rel="stylesheet">
+  <link href="css/dataTables.bootstrap4-1.10.2.min.css" rel="stylesheet">
+  <!-- <script src="../removebanner.js"></script> -->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="js/chartJs-2.8.js"></script>
+  <script src="js/jquery.dataTables-1.10.2.min.js"></script>
+  <script src="js/dataTables.bootstrap4-1.10.2.min.js"></script>
+
 </head>
 
 <body>
-    <div class="container h-100">
-    	<div id="main" class="row align-items-center h-100">
-    	    <div class="col-10 m-auto">
-    	        
-        		<div class="input-group mb-3" id="shrtdiv">
-                  <input type="text" class="form-control form-control-lg" placeholder="long url" id="urlin">
-                  <div class="input-group-append">
-                    <button class="btn btn-lg btn-primary px-5" onclick="sort(this)">short</button>
-                  </div>
-                </div>
-                
-                <div class="mt-3">
-                    <div class="col-10 mx-auto p-3 animated bounceInLeft" id="op">
-                        <h4 class="text-center">short url is ready</h4>
-                        <div class="col-8 input-group mx-auto" id="">
-                          <input type="text" class="form-control"  id="urlout" disabled="true">
-                          <div class="input-group-append">
-                            <button class="btn btn-success px-3" onclick="copytoclipboard(this,'urlout')">copy</button>
-                          </div>
-                        </div>
-                    </div>
-                </div>
-                
-            </div>
-    	</div>
-	</div>
-	<script>
-	   $('#op').hide();
-	   function sort(btnobj)
-	   {
-	       $(btnobj).text('shorting...');
-	       $('#op').hide();
-	       $.ajax({
-	           url: 'ajax.php',
-	           type: 'POST',
-	           data: {op: 'short', longurl: $('#urlin').val()},
-	           success:function(result){
-	               //return console.log(result);
-	               if(result.status == 1)
-	               {
-	                   const homeurl = location.protocol+'//'+location.hostname;
-	                   $('#urlout').val(homeurl+'/'+result.shorturlid);
-	                   $('#op').fadeIn();
-	                   $('#urlin').val('')
-	               }
-	               else
-	                    alert(result.msg);
-	               $(btnobj).text('short');
-	           },
-	           error:function(response)
-	           {
-	               console.log(response);
-	               $(btnobj).text('short');
-	           }
-	       });
-	   }
-	   
-	   function copytoclipboard(btnobj,inputid)
-	   {
-	       
-	        $('#'+inputid).prop("disabled", false).select();
-            document.execCommand("copy");
-            $('#'+inputid).prop("disabled", true);
-            $(btnobj).text('copied');
-	   }
-	</script>
+
+  <!-- Modal -->
+<div class="modal fade" id="link-visits">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="link-visits-title">Visits For Link</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span>&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" >
+        <table class="table table-bordered table-sm text-center" >
+          <thead>
+              <tr>
+                  <th>ip Address</th>
+                  <th>Time</th>
+              </tr>
+          </thead>
+          <tbody id="visits-table">
+
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <div class="d-flex" id="wrapper">
+
+    <!-- Sidebar -->
+    <div class="bg-light border-right" id="sidebar-wrapper">
+      <div class="sidebar-heading"> Admin@Zlink </div>
+      <div class="list-group list-group-flush">
+        <a href="./?p=home" class="list-group-item list-group-item-action bg-light">Dashboard</a>
+        <a href="./?p=links" class="list-group-item list-group-item-action bg-light">All Links</a>
+        <a href="./?p=visits" class="list-group-item list-group-item-action bg-light">visits</a>
+      </div>
+    </div>
+    <!-- /sidebar -->
+
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+
+      <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom" id="topnavbar">
+        <button class="btn border" id="menu-toggle"><span class="navbar-toggler-icon"></span></button>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#topnav" aria-controls="topnav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="topnav">
+          <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+            <li class="nav-item active">
+              <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Link</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Dropdown
+              </a>
+              <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="#">Action</a>
+                <a class="dropdown-item" href="#">Another action</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#">Something else here</a>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+      <div class="container-fluid h-100 custom-scroll" id="content">
+        <?php
+
+          $pages = ['home','links'];
+
+          $p = isset($_GET['p']) ? $_GET['p'] : 'home';
+
+          if(array_search($p,$pages) !== FALSE)
+            include("$p.php");
+          else
+            include('home.php');
+
+
+        ?>
+      </div>
+
+    </div>
+    <!-- /page-content -->
+
+  </div>
+  <!-- /wrapper -->
+
+  
+  <script src="js/sidebar.js"></script>
+  <script src="js/admin.js"></script>
+
+
 </body>
+
 </html>

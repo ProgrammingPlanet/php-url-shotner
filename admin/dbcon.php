@@ -1,9 +1,9 @@
 <?php
 
 	$DbHost = "localhost";
-	$DbUser = "id11209361_zlink";
+	$DbUser = "sysadmin";
 	$DbPass = "07860";
-	$DbName = "id11209361_zlink";
+	$DbName = "zlink";
 
     try {
         $db = new PDO("mysql:host=$DbHost;dbname=$DbName", $DbUser, $DbPass);

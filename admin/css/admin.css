@@ -1,0 +1,6 @@
+
+input.form-control:focus, button.btn:focus{
+    border-color: none;
+    box-shadow: 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 4px rgba(126, 239, 104, 0.6);
+    outline: 0 none;
+}
