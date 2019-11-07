@@ -9,7 +9,7 @@
 
     include('admin/dbcon.php');
     
-    $st = $db->prepare("SELECT destination,visits FROM zlinks WHERE linkid=?");
+    $st = $db->prepare("SELECT destination,visits FROM links WHERE linkid=?");
     $st->execute([$linkid]);
     
 	if($st->rowCount() < 1){
@@ -31,7 +31,7 @@
 				"time"	=>	date('d-M-Y g:i A')
 		]);
 
-		$q = "UPDATE zlinks SET visits='".json_encode($visits)."' WHERE linkid='".$linkid."'";
+		$q = "UPDATE links SET visits='".json_encode($visits)."' WHERE linkid='".$linkid."'";
 
 		$db->query($q);
 		

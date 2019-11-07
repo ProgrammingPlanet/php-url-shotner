@@ -23,37 +23,64 @@
         
         return false;
     }
+    
+    function validateAlias($alias)
+    {
+        $aliasregx = '/^([A-Za-z0-9]{6})$/i';
+        
+        if (preg_match($aliasregx,$alias)) return true;
+        
+        return false;
+        
+    }
 
-    function short($longurl)
+    function short($longurl,$alias=NULL)
     {    
         global $db;
 
         if(!validateurl($longurl))
             return ['status'=>0,'msg'=>'invalid long url'];
+        
+        if($alias!=='' && $alias!==NULL)
+        {
+            if(!validateAlias($alias))
+                return ['status'=>0,'msg'=>'alias must be alpha-numeric and of size 6.'];
+            
+            $usealias = TRUE;
+        }
+        else{
+            $usealias = FALSE;
+        }
 
         $longurl = trim($longurl,'/');
 
         /* check if destination link exists */
 
-        $st = $db->prepare("SELECT linkid FROM zlinks WHERE destination=?");
+        $st = $db->prepare("SELECT linkid FROM links WHERE destination=?");
         $st->execute([$longurl]);
         $newlinkid = $st->fetch(PDO::FETCH_COLUMN);
 
-        if($newlinkid!==FALSE)
+        if($newlinkid!==FALSE && (!$usealias || $alias==$newlinkid))
         {
             return ['status'=>1,'shorturlid'=>$newlinkid];
         }
 
         /* check end */
-
-        $linkids = $db->query("SELECT linkid FROM zlinks")->fetchAll(PDO::FETCH_COLUMN);
         
-        do{
-           $newlinkid = randomStr(6);
-        }while(array_search($newlinkid,$linkids) !== FALSE);
+        if(!$usealias)
+        {
+            $linkids = $db->query("SELECT linkid FROM links")->fetchAll(PDO::FETCH_COLUMN);
+            
+            do{
+               $newlinkid = randomStr(6);
+            }while(array_search($newlinkid,$linkids) !== FALSE);
+        }
+        else
+        {
+            $newlinkid = $alias;
+        }
         
-        
-        $q = "INSERT INTO zlinks (linkid, destination,visits, created_at) VALUES (?,?,?,?)";
+        $q = "INSERT INTO links (linkid, destination,visits, created_at) VALUES (?,?,?,?)";
         $ok = $db->prepare($q)->execute([$newlinkid, $longurl, '[]', date('Y-m-d H:i:s')]);
         
         if($ok)

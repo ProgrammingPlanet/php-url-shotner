@@ -19,11 +19,11 @@
   <title>Admin - Zlink</title>
   <link rel="icon" href="../favicon.ico" type="image/ico" sizes="30x30">
 
-  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
   <link href="css/sidebar.css" rel="stylesheet">
   <link href="css/admin.css" rel="stylesheet">
   <link href="css/dataTables.bootstrap4-1.10.2.min.css" rel="stylesheet">
-  <!-- <script src="../removebanner.js"></script> -->
+  
   <script src="vendor/jquery/jquery.min.js"></script>
   <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="js/chartJs-2.8.js"></script>
@@ -32,37 +32,38 @@
 
 </head>
 
+
 <body>
-
-  <!-- Modal -->
-<div class="modal fade" id="link-visits">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="link-visits-title">Visits For Link</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span>&times;</span>
-        </button>
-      </div>
-      <div class="modal-body" >
-        <table class="table table-bordered table-sm text-center" >
-          <thead>
-              <tr>
-                  <th>ip Address</th>
-                  <th>Time</th>
-              </tr>
-          </thead>
-          <tbody id="visits-table">
-
-          </tbody>
-        </table>
+    
+  <div class="d-flex" id="wrapper">
+      
+      <!-- Modal -->
+    <div class="modal fade" id="link-visits">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="link-visits-title">Visits For Link</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span>&times;</span>
+            </button>
+          </div>
+          <div class="modal-body" >
+            <table class="table table-bordered table-sm text-center" >
+              <thead>
+                  <tr>
+                      <th>ip Address</th>
+                      <th>Time</th>
+                  </tr>
+              </thead>
+              <tbody id="visits-table">
+    
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-</div>
-
-  <div class="d-flex" id="wrapper">
-
+    
     <!-- Sidebar -->
     <div class="bg-light border-right" id="sidebar-wrapper">
       <div class="sidebar-heading"> Admin@Zlink </div>
@@ -90,11 +91,11 @@
               <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Link</a>
+              <a class="nav-link" href="#">Settings</a>
             </li>
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Dropdown
+                👤
               </a>
               <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                 <a class="dropdown-item" href="#">Action</a>
@@ -106,6 +107,8 @@
           </ul>
         </div>
       </nav>
+      
+      
 
       <div class="container-fluid h-100 custom-scroll" id="content">
         <?php
@@ -128,12 +131,20 @@
 
   </div>
   <!-- /wrapper -->
+  
+  
 
   
   <script src="js/sidebar.js"></script>
   <script src="js/admin.js"></script>
-
+  <!--<script src="../removebanner1.js"></script> -->
+  
+  
+    
 
 </body>
 
+
 </html>
+
+

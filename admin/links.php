@@ -1,6 +1,6 @@
 <?php
 	
-	$q = "SELECT id,linkid,destination,JSON_LENGTH(visits),created_at FROM zlinks";
+	$q = "SELECT id,linkid,destination,JSON_LENGTH(visits),created_at FROM links";
 
 	$links = $db->query($q)->fetchAll(PDO::FETCH_ASSOC);
 
@@ -43,9 +43,9 @@
 
 <script>
 	
-	$('#linkstable').DataTable({
+	/*$('#linkstable').DataTable({
 		'pageLength': 10, //default number of rows per page
-	});
+	});*/
 
 	function showvisits(linkid)
 	{
