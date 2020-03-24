@@ -1,6 +1,6 @@
 <?php
 	
-	$q = "SELECT id,linkid,destination,JSON_LENGTH(visits),created_at FROM links";
+	$q = "SELECT *, (select count(linkid) from visits where visits.linkid = links.linkid) as visit_count from links";
 
 	$links = $db->query($q)->fetchAll(PDO::FETCH_ASSOC);
 
@@ -30,7 +30,7 @@
                 <td><?= $link['linkid'] ?></td>
                 <td><?= $link['destination'] ?></td>
                 <td class="text-center">
-                	<?= $link['JSON_LENGTH(visits)']; ?> &nbsp;
+                	<?= $link['visit_count']; ?> &nbsp;
                 	<a href="#" class="btn btn-sm btn-light" onclick='showvisits("<?=$link['linkid']?>")'>👁</a>
                 </td>
                 <td><?= $link['created_at'] ?></td>
@@ -58,7 +58,7 @@
 				var t = $('#visits-table');
 				t.html('');
 				$.each(result,function(i,v){
-					t.append(`<tr><td>${v.ip}</td><td>${v.time}</td?</tr>`);
+					t.append(`<tr><td>${v.ip}</td><td>${v.visited_at}</td?</tr>`);
 				})
 				$('#link-visits').modal('show');
 			},

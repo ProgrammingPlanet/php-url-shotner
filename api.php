@@ -11,12 +11,17 @@
 	{
 		die(json_encode(['status'=>0,'msg'=>'Error Occured.']));
 	}
+	
+	if(!isset($_REQUEST['key']) || $_REQUEST['key']!='zlinkapi')
+	{
+		die(json_encode(['status'=>0,'msg'=>'Wrong Api Key.']));
+	}
 
     $op = $_REQUEST['op'];
 
-    include('dbcon.php');
+    include('admin/dbcon.php');
 
-    include('functions.php');
+    include('admin/functions.php');
 
     if($op=='short')
     {

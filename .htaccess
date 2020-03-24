@@ -9,7 +9,7 @@ RewriteCond %{SCRIPT_FILENAME} !-d
 #RewriteCond %{SCRIPT_FILENAME} !-l
 
 #below line for excludes admin/ directory
-#RewriteCond %{REQUEST_URI} !^/admin/
+RewriteCond %{REQUEST_URI} !^/admin/
 
 RewriteCond %{SCRIPT_FILENAME} !-f
 RewriteRule ^(.*)$ index.php/$1

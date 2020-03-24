@@ -21,7 +21,7 @@ function sort(btnobj)
                $('#alias').val('')
            }
            else
-                alert(result.msg);
+                console.log(result.msg);
            $(btnobj).text('short');
        },
        error:function(response)

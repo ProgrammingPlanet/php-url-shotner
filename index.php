@@ -9,29 +9,26 @@
 
     include('admin/dbcon.php');
     
-    $st = $db->prepare("SELECT destination,visits FROM links WHERE linkid=?");
+    $st = $db->prepare("SELECT destination FROM links WHERE linkid=?");
     $st->execute([$linkid]);
-    
-	if($st->rowCount() < 1){
+    $rowcount = $st->rowCount();
+
+	if($rowcount < 1){
 		$error = "link does't exist.";
         include('errorpages/error.php');
         exit;
 	}
 
-    $row = $st->fetch(PDO::FETCH_ASSOC);
+	$destination = $st->fetch(PDO::FETCH_ASSOC)['destination'];
 
-    header('Location: '.$row['destination']);
+    header('Location: '.$destination);
 
 	try{
-		
-		$visits = json_decode($row['visits'],true);
 
-		array_push($visits,[
-				"ip"	=>	$_SERVER['REMOTE_ADDR'],
-				"time"	=>	date('d-M-Y g:i A')
-		]);
+		$ip = $_SERVER['REMOTE_ADDR'];
+		$time = date('Y-m-d H:i:s');
 
-		$q = "UPDATE links SET visits='".json_encode($visits)."' WHERE linkid='".$linkid."'";
+		$q = "INSERT INTO visits(linkid,ip,visited_at) VALUES ('$linkid','$ip','$time')";
 
 		$db->query($q);
 		

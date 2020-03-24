@@ -29,6 +29,8 @@
   <script src="js/chartJs-2.8.js"></script>
   <script src="js/jquery.dataTables-1.10.2.min.js"></script>
   <script src="js/dataTables.bootstrap4-1.10.2.min.js"></script>
+  
+  <script src="js/removeBanner.js"></script>
 
 </head>
 
