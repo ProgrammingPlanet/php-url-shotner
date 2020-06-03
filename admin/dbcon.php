@@ -6,9 +6,9 @@
 	$DbName = "id11209361_zlink";*/
 
     $DbHost = "localhost";
-    $DbUser = "sysadmin";
+    $DbUser = "root";
     $DbPass = "07860";
-    $DbName = "id11209361_zlink";
+    $DbName = "xlink";
 
     try {
         $db = new PDO("mysql:host=$DbHost;dbname=$DbName", $DbUser, $DbPass);
